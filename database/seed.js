@@ -1,4 +1,5 @@
 // Import database and model
+const { sequelize, Track } = require('./setup');
 
 // Seed data
 const sampleTracks = [
@@ -101,3 +102,15 @@ const sampleTracks = [
 ];
 
 // Seed database with sample data
+async function seed() {
+  try {
+    await sequelize.sync(); // ensure tables exist
+    await Track.bulkCreate(sampleTracks);
+    console.log("Database seeded with sample tracks");
+    await sequelize.close();
+  } catch (err) {
+    console.error("Error seeding database:", err);
+  }
+}
+
+seed();
